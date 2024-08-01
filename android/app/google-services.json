@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "396885943884",
+    "project_id": "employee-report-87335",
+    "storage_bucket": "employee-report-87335.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396885943884:android:3f7c7472df348b25d136e9",
+        "android_client_info": {
+          "package_name": "com.employee_attendance.employee_attendance"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBykMC_2OnZ67sp_-yAKsc7mGPjivSUIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396885943884:android:8c5a9e23540ff6cbd136e9",
+        "android_client_info": {
+          "package_name": "com.empoyee_attendance.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBykMC_2OnZ67sp_-yAKsc7mGPjivSUIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
