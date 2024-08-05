@@ -1,3 +1,4 @@
+import 'package:employee_attendance/auth/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -35,6 +36,78 @@ class _ProfileScreenState extends State<ProfileScreen> {
       } catch (e) {
         print('Error fetching user data: $e');
       }
+    }
+  }
+
+  Future<void> _changePassword(String newPassword) async {
+    try {
+      await user!.updatePassword(newPassword);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Password berhasil diubah')),
+      );
+    } catch (e) {
+      print('Error changing password: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal mengubah password: $e')),
+      );
+    }
+  }
+
+  void _showChangePasswordDialog() {
+    final TextEditingController passwordController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Ganti Password'),
+          content: TextField(
+            controller: passwordController,
+            obscureText: true,
+            decoration: InputDecoration(
+              labelText: 'Password Baru',
+              hintText: 'Masukkan password baru',
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Batal'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                String newPassword = passwordController.text.trim();
+                if (newPassword.isNotEmpty) {
+                  _changePassword(newPassword);
+                  Navigator.of(context).pop();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Password baru tidak boleh kosong')),
+                  );
+                }
+              },
+              child: Text('Simpan'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _logout() async {
+    try {
+      await _auth.signOut();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+        (Route<dynamic> route) => false,
+      );
+    } catch (e) {
+      print('Error signing out: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal logout: $e')),
+      );
     }
   }
 
@@ -112,6 +185,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
               style: TextStyle(
                 fontSize: 16,
               ),
+            ),
+            const SizedBox(height: 20.0),
+            ElevatedButton(
+              onPressed: _showChangePasswordDialog,
+              child: Text('Ganti Password'),
+            ),
+            const SizedBox(height: 10.0),
+            ElevatedButton(
+              onPressed: _logout,
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red, foregroundColor: Colors.white),
+              child: Text('Logout'),
             ),
           ],
         ),

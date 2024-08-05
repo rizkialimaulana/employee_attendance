@@ -23,32 +23,50 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined, size: 30),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.assignment_turned_in_outlined, size: 30),
-            label: 'Attendance',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.file_present_outlined, size: 30),
-            label: 'Report',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_2_outlined, size: 30),
-            label: 'Profile',
-          ),
-        ],
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              spreadRadius: 1,
+              blurRadius: 5,
+              offset: Offset(0, -1),
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.white,
+          currentIndex: _currentIndex,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.black,
+          unselectedItemColor: Colors.grey,
+          selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+          unselectedLabelStyle: TextStyle(color: Colors.grey),
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined, size: 30),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.assignment_turned_in_outlined, size: 30),
+              label: 'Report',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bar_chart, size: 30),
+              label: 'Statistic',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline, size: 30),
+              label: 'Profile',
+            ),
+          ],
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+        ),
       ),
       body: IndexedStack(
         index: _currentIndex,

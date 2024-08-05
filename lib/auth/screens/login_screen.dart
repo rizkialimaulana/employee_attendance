@@ -13,8 +13,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController nikController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  bool _isLoading = false;
 
   Future<void> _login() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     try {
       // Menggunakan email fiktif dengan NIK untuk login
       String email = nikController.text + "@company.com";
@@ -29,9 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // Navigate to home screen or dashboard
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  MainScreen()), // Asumsi HomeScreen adalah halaman tujuan
+          MaterialPageRoute(builder: (context) => MainScreen()),
         );
       }
     } on FirebaseAuthException catch (e) {
@@ -39,6 +42,10 @@ class _LoginScreenState extends State<LoginScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to sign in: ${e.message}')),
       );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -99,11 +106,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green, // Menggunakan warna hijau
                 ),
-                onPressed: _login,
-                child: Text(
-                  "Sign in",
-                  style: TextStyle(color: Colors.white),
-                ),
+                onPressed: _isLoading ? null : _login,
+                child: _isLoading
+                    ? CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      )
+                    : Text(
+                        "Sign in",
+                        style: TextStyle(color: Colors.white),
+                      ),
               ),
             ),
           ],
